@@ -15,7 +15,7 @@ CREATE TABLE exchange (
   name varchar(255) NOT NULL,
   city varchar(255),
   country varchar(255),
-  currency varchar(64),
+  currency varchar(64)
 );
 
 
@@ -26,7 +26,7 @@ CREATE TABLE exchange (
 CREATE TABLE data_source (
   id serial primary key,
   name varchar(64) NOT NULL,
-  website_url(255),
+  website_url varchar(255)
 );
 
 -------------------------------------------------------------------
@@ -36,11 +36,11 @@ CREATE TABLE data_source (
 
 CREATE TABLE symbol (
   id serial primary key,
-  exchange_id int references exchange(id)
+  exchange_id int references exchange(id),
   ticker varchar(32) NOT NULL,
   instrument varchar(64) NOT NULL,
-  name varchar(255)
-  sector varchar(255)
+  name varchar(255),
+  sector varchar(255),
   currency varchar(32)
 );
 
@@ -51,13 +51,13 @@ CREATE TABLE symbol (
 
 CREATE TABLE daily_price (
   id serial primary key,
-  data_source_id references data_source(id)
-  symbol_id int references symbol(id)
-  date_time datetime NOT NULL,
+  data_source_id int references data_source(id),
+  symbol_id int references symbol(id),
+  timestamp timestamp NOT NULL,
   open_price decimal(19,4),
   high_price decimal(19,4),
   low_price decimal(19,4),
   close_price decimal(19,4),
   adj_close_price decimal(19,4),
-  volume bigint,
+  volume bigint
 );

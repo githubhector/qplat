@@ -1,7 +1,7 @@
 set -e
 
-DATABASE=quant
-OWNER=quantuser
+DATABASE=qplat
+OWNER=qplatuser
 
 echo "Dropping database $DATABASE..."
 ./drop-db.sh $DATABASE
