@@ -1,10 +1,3 @@
-
--------------------------------------------------------------------------------------------
---- Schema roughly follows:
---- http://www.quantstart.com/articles/Securities-Master-Database-with-MySQL-and-Python
--------------------------------------------------------------------------------------------
-
-
 --------------------------------------------------------------------------------
 --- Exchange table: one entry for each exchange where securities are traded
 --------------------------------------------------------------------------------
@@ -36,14 +29,14 @@ CREATE TABLE data_source (
 
 CREATE TABLE symbol (
   id serial primary key,
-  exchange_id int references exchange(id),
-  ticker varchar(32) NOT NULL,
-  instrument varchar(64) NOT NULL,
-  name varchar(255),
+  symbol varchar(32) NOT NULL,
+  description varchar(255),
+  asset_type varchar(64) NOT NULL,
   sector varchar(255),
-  currency varchar(32)
+  industry varchar(255),
+  data_source int references data_source(id),
+  record_update_time timestamp NOT NULL
 );
-
 
 -------------------------------------------------------------------
 --- Daily price table: end-of-day price and volume data
@@ -51,13 +44,42 @@ CREATE TABLE symbol (
 
 CREATE TABLE daily_price (
   id serial primary key,
-  data_source_id int references data_source(id),
-  symbol_id int references symbol(id),
-  timestamp timestamp NOT NULL,
+  data_source int references data_source(id),
+  symbol int references symbol(id),
+  date_time timestamp NOT NULL,
   open_price decimal(19,4),
   high_price decimal(19,4),
   low_price decimal(19,4),
   close_price decimal(19,4),
   adj_close_price decimal(19,4),
   volume bigint
+);
+
+-------------------------------------------------------------------
+--- Investment account table
+-------------------------------------------------------------------
+
+CREATE TABLE investment_account (
+    id serial primary key,
+    account_type varchar(32),
+    record_update_time timestamp NOT NULL
+);
+
+-------------------------------------------------------------------
+--- Transaction table
+-------------------------------------------------------------------
+
+CREATE TABLE transaction (
+  id serial primary key,
+  data_source int references data_source(id),
+  investment_account int references investment_account(id),
+  date_time timestamp NOT NULL,
+  action varchar(32) NOT NULL,
+  symbol int references symbol(id),
+  quantity int,
+  price decimal(19,4),
+  commission decimal(19,4),
+  fees decimal(19,4),
+  amount decimal(19,4), 
+  record_update_time timestamp
 );
