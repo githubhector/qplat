@@ -1,27 +1,59 @@
 import cmd
+import sys
+import qplat_api
+
+#######################################################################
+# Functions to parse and execute commands
+#######################################################################
+
+
+def exec_echo(line):
+    print line
+
+
+def exec_quit(line):
+    print 'bye...'
+    sys.exit()
+
+
+def exec_deposit(line):
+    qplat_api.deposit(*line.split())
+    pass
+
+
+def exec_holdings(line):
+    print "holdings..."
+    pass
+
+#######################################################################
+
 
 class QplatCli(cmd.Cmd):
     """Qplat command interpreter"""
 
+    print " *** Qplat command interpreter ***"
+
     prompt = "$ "
-    intro = " *** Qplat command interpreter ***"
 
     def emptyline(self):
         pass
 
     def do_echo(self, line):
-        print line
+        exec_echo(line)
 
     def do_quit(self, line):
-        print "Bye..."
-        return True
+        exec_quit(line)
 
     def do_deposit(self, line):
-        print "Depositing..."
+        exec_deposit(line)
 
     def do_holdings(self, line):
-        print "These are the holdings..."
+        exec_holdings(line)
 
 if __name__ == '__main__':
-    QplatCli().cmdloop()
+    while True:
+        try:
+            QplatCli().cmdloop()
+        except Exception as e:
+            print e.message
 
