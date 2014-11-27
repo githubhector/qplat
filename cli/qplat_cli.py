@@ -18,7 +18,10 @@ def exec_quit(line):
 
 def exec_deposit(line):
     qplat_api.deposit(*line.split())
-    pass
+
+
+def exec_ingest(line):
+    qplat_api.ingest(line)
 
 
 def exec_holdings(line):
@@ -47,6 +50,9 @@ class QplatCli(cmd.Cmd):
     def do_deposit(self, line):
         exec_deposit(line)
 
+    def do_ingest(self, line):
+        exec_ingest(line)
+
     def do_holdings(self, line):
         exec_holdings(line)
 
@@ -55,5 +61,4 @@ if __name__ == '__main__':
         try:
             QplatCli().cmdloop()
         except Exception as e:
-            print e.message
-
+            print "Exception: %s" % e
