@@ -9,8 +9,9 @@ def deposit(deposit_date, account, symbol, quantity):
 
 def ingest(file_path):
     """ Ingest the given file """
-    print "Ingesting: file: [%s]" % file_path
+    print "Ingesting: file: %s" % file_path
     with open(file_path) as data_file:
         data = json.load(data_file)
-        pprint(data)
+        pprint.pprint(data)
+        data_file.close()
     pass
