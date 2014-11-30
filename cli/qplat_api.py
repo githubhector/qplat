@@ -31,7 +31,6 @@ def dbinfo():
     try:
         cur = conn.cursor()
         cur.execute("SELECT version();")
-        rows = cur.fetchall()
-        print "Version: %s" % rows
+        print "Version: %s" % cur.fetchall()
     except Exception as e:
         print "Trouble trying to get version: %s" % e
