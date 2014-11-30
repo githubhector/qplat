@@ -17,7 +17,7 @@ def ingest(file_path):
         print "Ingest items list:\n", json.dumps(ingest_items_list, indent=4)
         for item in ingest_items_list:
             print item
-            print "DO SOMETHING HERE..."
+            print "DO SOMETHING HERE!!!"
 
 def dbinfo():
     try:
