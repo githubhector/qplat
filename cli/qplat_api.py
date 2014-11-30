@@ -28,15 +28,10 @@ def dbinfo():
 
     try:
         cur = conn.cursor()
-
-        # Get version
         cur.execute("SELECT version();")
         version = cur.fetchall()
-
-        # Get table names
         cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';")
         tables = cur.fetchall()
-
         return version, [table[0] for table in tables]
     except Exception as e:
         print "Trouble trying to get db info: %s" % e
