@@ -26,7 +26,10 @@ def exec_ingest(line):
 
 def exec_holdings(line):
     print "holdings..."
-    pass
+
+def exec_dbinfo():
+    qplat_api.dbinfo();
+
 
 #######################################################################
 
@@ -55,6 +58,9 @@ class QplatCli(cmd.Cmd):
 
     def do_holdings(self, line):
         exec_holdings(line)
+
+    def do_dbinfo(self, line):
+        exec_dbinfo()
 
 if __name__ == '__main__':
     while True:
