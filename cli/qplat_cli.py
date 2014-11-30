@@ -28,7 +28,9 @@ def exec_holdings(line):
     print "holdings..."
 
 def exec_dbinfo():
-    qplat_api.dbinfo();
+    version, tables = qplat_api.dbinfo();
+    print "Version: %s" % version
+    print "Tables: %s" % tables
 
 
 #######################################################################

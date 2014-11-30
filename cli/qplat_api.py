@@ -26,11 +26,17 @@ def dbinfo():
         print "Cannot connect to db: %s" % e
         return
 
-    print "Connected to db..."
-
     try:
         cur = conn.cursor()
+
+        # Get version
         cur.execute("SELECT version();")
-        print "Version: %s" % cur.fetchall()
+        version = cur.fetchall()
+
+        # Get tables
+        cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';")
+        tables = cur.fetchall()
+
+        return version, [table[0] for table in tables]
     except Exception as e:
-        print "Trouble trying to get version: %s" % e
+        print "Trouble trying to get db info: %s" % e
