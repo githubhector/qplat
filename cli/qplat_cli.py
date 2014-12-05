@@ -1,68 +1,69 @@
 import cmd
 import sys
 import qplat_api
-
-#######################################################################
-# Functions to parse and execute commands
-#######################################################################
-
-
-def exec_echo(line):
-    print line
-
-
-def exec_quit(line):
-    print 'bye...'
-    sys.exit()
-
-
-def exec_deposit(line):
-    qplat_api.deposit(*line.split())
-
-
-def exec_ingest(line):
-    qplat_api.ingest(line)
-
-
-def exec_holdings(line):
-    print "holdings..."
-
-def exec_dbinfo():
-    version, tables = qplat_api.dbinfo();
-    print "Version: %s" % version
-    print "Tables: %s" % tables
-
-
-#######################################################################
-
+import traceback
 
 class QplatCli(cmd.Cmd):
     """Qplat command interpreter"""
+
+    api = qplat_api.QplatApi()
+
+    #######################################################################
+    # Functions to parse and execute commands
+    #######################################################################
+
+    def exec_echo(line):
+        print line
+
+
+    def exec_quit(line):
+        print 'bye...'
+        sys.exit()
+
+
+    def exec_deposit(self, line):
+        self.api.deposit(*line.split())
+
+
+    def exec_ingest(self, line):
+        self.api.ingest(line)
+
+
+    def exec_holdings(self, line):
+        print "holdings..."
+
+    def exec_dbinfo(self):
+        version, tables = self.api.dbinfo();
+        print "Version: %s" % version
+        print "Tables: %s" % tables
+    #######################################################################
 
     print " *** Qplat command interpreter ***"
 
     prompt = "$ "
 
+
+
     def emptyline(self):
         pass
 
     def do_echo(self, line):
-        exec_echo(line)
+        self.exec_echo(line)
 
     def do_quit(self, line):
-        exec_quit(line)
+        self.exec_quit(line)
 
     def do_deposit(self, line):
-        exec_deposit(line)
+        self.exec_deposit(line)
 
     def do_ingest(self, line):
-        exec_ingest(line)
+        self.exec_ingest(line)
 
     def do_holdings(self, line):
-        exec_holdings(line)
+        self.exec_holdings(line)
 
     def do_dbinfo(self, line):
-        exec_dbinfo()
+        self.exec_dbinfo()
 
 if __name__ == '__main__':
     while True:
@@ -70,3 +71,4 @@ if __name__ == '__main__':
             QplatCli().cmdloop()
         except Exception as e:
             print "Exception: %s" % e
+            traceback.print_exc()
