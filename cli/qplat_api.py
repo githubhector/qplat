@@ -22,7 +22,9 @@ class QplatApi:
             version = cur.fetchall()
             cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';")
             tables = cur.fetchall()
-            return version, [table[0] for table in tables]
+            cur.execute("SELECT COUNT(*) from pg_stat_activity;")
+            num_conns = cur.fetchall()
+            return version, [table[0] for table in tables], [num_conn[0] for num_conn in num_conns][0]
         except Exception as e:
             print "Trouble trying to get db info: %s" % e
 

@@ -33,9 +33,10 @@ class QplatCli(cmd.Cmd):
         print "holdings..."
 
     def exec_dbinfo(self):
-        version, tables = self.api.dbinfo();
+        version, tables, connections = self.api.dbinfo();
         print "Version: %s" % version
         print "Tables: %s" % tables
+        print "Connections: %s" % connections
     #######################################################################
 
     print " *** Qplat command interpreter ***"
